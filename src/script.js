@@ -97,3 +97,59 @@ function populateCurrencyDropdowns() {
     });
 }
 populateCurrencyDropdowns();
+var amountInput = document.getElementById('amount');
+var convertButton = document.getElementById('convert-btn');
+var resultMessage = document.getElementById('result-message');
+var errorMessage = document.getElementById('error-message');
+convertButton.addEventListener('click', function () { return __awaiter(void 0, void 0, void 0, function () {
+    var amountValue, fromCurrency, toCurrency, amount, url, response, data, exchangeRate, convertedAmount, formatter, error_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                amountValue = amountInput.value;
+                fromCurrency = currencyFromSelect.value;
+                toCurrency = currencyToSelect.value;
+                if (!amountValue || parseFloat(amountValue) <= 0) {
+                    errorMessage.textContent = "Please enter a valid amount greater than 0.";
+                    errorMessage.style.display = 'block';
+                    resultMessage.style.display = 'none';
+                    return [2 /*return*/];
+                }
+                amount = parseFloat(amountValue);
+                convertButton.textContent = "Converting...";
+                errorMessage.style.display = 'none';
+                resultMessage.style.display = 'none';
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 4, 5, 6]);
+                url = "".concat(CONFIG.EXCHANGE_RATE_BASE_URL).concat(CONFIG.EXCHANGE_RATE_API_KEY, "/pair/").concat(fromCurrency, "/").concat(toCurrency);
+                return [4 /*yield*/, fetch(url)];
+            case 2:
+                response = _a.sent();
+                if (!response.ok) {
+                    throw new Error("API Error: ".concat(response.status));
+                }
+                return [4 /*yield*/, response.json()];
+            case 3:
+                data = _a.sent();
+                exchangeRate = parseFloat(data.conversion_rate);
+                convertedAmount = exchangeRate * amount;
+                formatter = new Intl.NumberFormat('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+                resultMessage.textContent = "".concat(amount, " ").concat(fromCurrency, " = ").concat(formatter.format(convertedAmount), " ").concat(toCurrency);
+                resultMessage.style.display = 'block';
+                return [3 /*break*/, 6];
+            case 4:
+                error_2 = _a.sent();
+                errorMessage.textContent = "An error occurred, please try again later";
+                errorMessage.style.display = 'block';
+                return [3 /*break*/, 6];
+            case 5:
+                convertButton.textContent = "Convert";
+                return [7 /*endfinally*/];
+            case 6: return [2 /*return*/];
+        }
+    });
+}); });

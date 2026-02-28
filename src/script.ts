@@ -20,6 +20,13 @@ interface CountryData {
     }
 }
 
+// taking only those which are of our use
+interface ExchangeData {
+    base_code: string,
+    conversion_rate: string,
+    target_code: string
+}
+
 const COUNTRY_LIST_API = CONFIG.COUNTRY_LIST_API;
 
 async function populateCurrencyDropdowns(): Promise<void> {
@@ -50,12 +57,12 @@ async function populateCurrencyDropdowns(): Promise<void> {
         });
 
         // converted into array with sorted on the basis of their currencyCodes
-        const sortedCurrencies = Array.from(currencyMap.entries()).sort((a , b) => a[0].localeCompare(b[0]))
+        const sortedCurrencies = Array.from(currencyMap.entries()).sort((a, b) => a[0].localeCompare(b[0]))
 
         currencyFromSelect.innerHTML = '';
         currencyToSelect.innerHTML = '';
 
-        sortedCurrencies.forEach(([currencyCode , displayText]) => {
+        sortedCurrencies.forEach(([currencyCode, displayText]) => {
 
             const fromOption = document.createElement('option')
             fromOption.value = currencyCode;
@@ -65,8 +72,8 @@ async function populateCurrencyDropdowns(): Promise<void> {
             toOption.value = currencyCode;
             toOption.textContent = displayText
 
-            if(currencyCode === 'USD') fromOption.selected = true;
-            if(currencyCode == 'INR') toOption.selected = true;
+            if (currencyCode === 'USD') fromOption.selected = true;
+            if (currencyCode == 'INR') toOption.selected = true;
 
             currencyFromSelect.appendChild(fromOption)
             currencyToSelect.appendChild(toOption)
@@ -78,3 +85,59 @@ async function populateCurrencyDropdowns(): Promise<void> {
 }
 
 populateCurrencyDropdowns()
+
+
+const amountInput = document.getElementById('amount') as HTMLInputElement;
+const convertButton = document.getElementById('convert-btn') as HTMLButtonElement;
+const resultMessage = document.getElementById('result-message') as HTMLDivElement;
+const errorMessage = document.getElementById('error-message') as HTMLDivElement;
+
+
+convertButton.addEventListener('click', async () => {
+
+    const amountValue = amountInput.value;
+    const fromCurrency = currencyFromSelect.value;
+    const toCurrency = currencyToSelect.value;
+
+    if (!amountValue || parseFloat(amountValue) <= 0) {
+        errorMessage.textContent = "Please enter a valid amount greater than 0.";
+        errorMessage.style.display = 'block';
+        resultMessage.style.display = 'none';
+        return;
+    }
+
+    const amount = parseFloat(amountValue);
+
+    convertButton.textContent = "Converting...";
+    errorMessage.style.display = 'none';
+    resultMessage.style.display = 'none';
+
+    try {
+        const url = `${CONFIG.EXCHANGE_RATE_BASE_URL}${CONFIG.EXCHANGE_RATE_API_KEY}/pair/${fromCurrency}/${toCurrency}`;
+
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error(`API Error: ${response.status}`);
+        }
+        const data: ExchangeData = await response.json();
+
+        const exchangeRate = parseFloat(data.conversion_rate);
+        const convertedAmount = exchangeRate * amount;
+
+        const formatter = new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+
+        resultMessage.textContent = `${amount} ${fromCurrency} = ${formatter.format(convertedAmount)} ${toCurrency}`;
+        resultMessage.style.display = 'block'
+
+    } catch (error) {
+        errorMessage.textContent = "An error occurred, please try again later";
+        errorMessage.style.display = 'block';
+    } finally {
+        convertButton.textContent = "Convert"
+    }
+
+})
