@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,10 +7,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
     <main class="converter-container">
-        <h1>Currency Converter</h1>
+        <h1>Currency converter</h1>
         <div class="input-group">
             <label for="amount">Enter amount</label>
             <input type="number" id="amount" placeholder="100" required>
@@ -19,13 +17,13 @@
         <div class="currency-selectors">
             <div class="dropdown">
                 <select id="from-currency">
-                    <option value="USD" selected>🇺🇸 USD - United States Dollar</option>
+                    <option value="USD" selected>USD - United St...</option>
                 </select>
-            </div>
+            </div> 
             <span class="to-label">TO</span>
             <div class="dropdown">
                 <select id="to-currency">
-                    <option value="INR" selected>🇮🇳 INR - Indian Rupee</option>
+                    <option value="INR" selected>INR - Indian Rup...</option>
                 </select>
             </div>
         </div>
@@ -33,8 +31,6 @@
         <div id="result-message" class="result">100 USD = 8,407.52 INR</div>
         <div id="error-message" class="error">An error occurred, please try again later</div>
     </main>
-
-    <script src="script.js" defer></script>
+    <script src="script.js" defer></script> 
 </body>
-
 </html>
