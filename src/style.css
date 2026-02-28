@@ -1,0 +1,114 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.converter-container {
+    background-color: #F8D800; 
+    text-align: center;
+    width: 90%;
+    max-width: 480px; 
+    padding: 40px 30px;
+    border-radius: 16px; 
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); 
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.input-group {
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+    text-align: center;
+}
+
+input[type="number"], select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); 
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+input[type="number"]:focus, select:focus {
+    border-color: #555; 
+}
+
+.currency-selectors {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.dropdown {
+    flex: 1;
+}
+
+.to-label {
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+}
+
+#convert-btn {
+    background-color: #007bff;
+    color: white;
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3); 
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Lato', sans-serif;
+    transition: background-color 0.3s ease;
+    margin-bottom: 20px;
+}
+
+#convert-btn:hover {
+    background-color: #0056b3;
+}
+
+.result, .error {
+    font-size: 16px;
+    margin-top: 10px;
+    display: none; 
+}
+
+.result {
+    font-weight: bold;
+    color: #333;
+}
+
+.error {
+    color: #d9534f;
+    font-weight: bold;
+}
